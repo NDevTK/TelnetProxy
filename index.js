@@ -1,17 +1,17 @@
 // NDev 2019
 const WebSocket = require('ws');
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080; // process.env.PORT used for heroku
 const net = require('net');
 const ValidHostnameRegex = /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/;
 const wss = new WebSocket.Server({ port: PORT });
 
-function checkInput(ws, host, port) {
+function checkInput(ws, host, port) { // Validate telnet address
 	if(!ValidHostnameRegex.test(host)) return false;
 	if (!Number.isInteger(port) || port < 1 || port > 65535) return false;
 	return true;
 }
 
-function connect(ws, host, port) {
+function connect(ws, host, port) { // connect to telnet server
 	let client = net.connect(port, host);
 	client.setEncoding('utf8');
 	client.on('data', function(data) {
@@ -33,11 +33,11 @@ function connect(ws, host, port) {
 	return client;
 }
 
-wss.on('connection', function connection(ws) {
-	var client;
-    ws.on('message', function incoming(message) {
+wss.on('connection', function connection(ws) { // On new webshocket
+      var client;
+      ws.on('message', function incoming(message) {
       if(!message) return;
-      if(!addr) {
+      if(!addr) { // First message
         var addr = message.split(":");
         if(addr.length > 2) return ws.close();
         var host = addr[0];
@@ -48,7 +48,7 @@ wss.on('connection', function connection(ws) {
 	  ws.send("BadInput");
 	  ws.close();
 	}
-    } else {
+    } else { // Webshocket => telnet
 	client.write(chunk);
     }
   });
