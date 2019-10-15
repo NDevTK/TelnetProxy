@@ -8,6 +8,7 @@ const wss = new WebSocket.Server({ port: PORT });
 function checkInput(ws, host, port) {
 	if(!ValidHostnameRegex.test(host)) ws.close();
 	if (!Number.isInteger(port) || port < 1 || port > 65535) ws.close();
+	return true;
 }
 
 function connect(ws, host, port) {
@@ -41,10 +42,9 @@ wss.on('connection', function connection(ws) {
         if(addr.length > 2) return ws.close();
         var host = addr[0];
         var port = (addr.length === 2) ? port = addr[1] : 23;
-		checkInput(ws, host, port);
-		client = connect(ws, host, port);
+	if(checkInput(ws, host, port)) client = connect(ws, host, port);
     } else {
-		client.write(chunk);
+	client.write(chunk);
     }
-	});
+  });
 });
