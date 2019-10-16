@@ -4,12 +4,11 @@
   "description": "Webshocket <=> Telnet",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "author": "NDev",
   "license": "MIT",
   "dependencies": {
-    "telnet-client": "^1.2.0",
     "ws": "^7.1.2"
   },
   "optionalDependencies": {
