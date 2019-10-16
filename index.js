@@ -12,25 +12,25 @@ function checkInput(ws, host, port) { // Validate telnet address
 }
 
 function connect(ws, host, port) { // connect to telnet server
-	let client = net.connect(port, host);
-	client.setEncoding('utf8');
-	client.on('data', function(data) {
+    let client = net.connect(port, host);
+    client.setEncoding('utf8');
+    client.on('data', function(data) {
 		ws.send(data);
-	});
+    });
     client.on('timeout', function(e) {
 		ws.send("timeout");
 		ws.close();
-        client.end();
+		client.end();
     });       
     client.on('close', function(e) {
 		ws.send("closed");
 		ws.close();
     });
-	client.on('error', function(e) {
+    client.on('error', function(e) {
 		ws.send("error");
 		ws.close();
     });
-	return client;
+    return client;
 }
 
 wss.on('connection', function connection(ws) { // On new webshocket
