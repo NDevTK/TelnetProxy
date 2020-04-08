@@ -1,4 +1,4 @@
-// NDev 2019
+// OFFICIALNOOB 2019
 const WebSocket = require('ws');
 const PORT = process.env.PORT || 8080; // process.env.PORT used for heroku
 const net = require('net');
